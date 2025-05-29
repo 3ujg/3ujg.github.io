@@ -1,0 +1,60 @@
+/* üld */
+*{
+    margin: 0;
+    padding: 0;
+    color: #333;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.container{
+    max-width: 1260px;
+    margin: auto;
+}
+
+/* BANNER */
+.header{
+    display: flex;
+}
+
+.logo{
+    color: #fff;
+    background-color: #ff3600;
+    font-size: 30px;
+    padding: 25px 50px;
+}
+
+.menu{
+    background-color: #333;
+    width: 100%;
+}
+
+.menu ul{
+    display: flex;
+    list-style-type: none;
+    font-size: 20px;
+}
+
+.menu li{
+    line-height: 80px;
+    margin-left: 40px;
+}
+
+.menu a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.active{
+    color: #ff3600 !important;
+}
+/* SISU */
+
+.content{
+    display: flex;
+}
+
+/* JALUS */
+
+.footer{
+    display: flex;
+}
