@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andmebaasid - Alari Tööd</title>
+    
+    <link rel="stylesheet" href="index.css">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <style>
+        .sisu-konteiner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .projekt-info {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        pre[class*="language-"] {
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Andmebaasid</h1>
+    </header>
+
+    <div class="sisu-konteiner">
+        <a href="index.html" class="tagasi-nupp">← Tagasi pealehele</a>
+
+        <div class="projekt-info">
+            <h2>Majutuse Haldussüsteem</h2>
+            
+            <div style="margin: 10px 0;">
+                <span class="tag">Python</span>
+                <span class="tag">SQLite3</span>
+                <span class="tag">Tkinter GUI</span>
+            </div>
+
+            <p>See on Pythonis kirjutatud graafilise liidesega (GUI) andmebaasirakendus. Rakendus kasutab SQLite andmebaasi majutusasutuse tubade, broneeringute ja maksete haldamiseks. Lisatud on CRUD (Loo, Loe, Uuenda, Kustuta) funktsionaalsus.</p>
+        </div>
+
+        <pre><code class="language-python"># Osa minu andmebaasi koodist: Kustutamise funktsioon
+def on_delete():
+    selected = tree.selection()
+
+    if not selected:
+        messagebox.showwarning("Valik puudub", "Palun vali rida kustutamiseks!")
+        return
+
+    record_id = selected[0]
+    table = selected_table.get()
+
+    confirm = messagebox.askyesno("Kinnita", "Kas oled kindel, et soovid valitud rea kustutada?")
+    
+    if confirm:
+        try:
+            conn = sqlite3.connect(DB_NAME)
+            cur = conn.cursor()
+            cur.execute(f"DELETE FROM {table} WHERE rowid=?", (record_id,))
+            conn.commit()
+            conn.close()
+
+            load_data_from_db(tree)
+            messagebox.showinfo("Edu", "Kirje edukalt kustutatud!")
+        except Exception as e:
+            messagebox.showerror("Viga", f"Viga kustutamisel: {e}")</code></pre>
+            
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+</body>
+</html>
