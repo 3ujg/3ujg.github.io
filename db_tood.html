@@ -6,7 +6,6 @@
     <title>Andmebaasid - Alari Tööd</title>
     
     <link rel="stylesheet" href="index.css">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 
     <style>
@@ -19,13 +18,20 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             margin-bottom: 40px;
         }
-        .projekt-info {
-            margin-top: 20px;
-            margin-bottom: 20px;
+        .projekt {
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .projekt:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
         pre[class*="language-"] {
             border-radius: 8px;
             font-size: 0.9rem;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -37,49 +43,62 @@
 
     <div class="sisu-konteiner">
         <a href="index.html" class="tagasi-nupp">← Tagasi pealehele</a>
+        <br><br>
 
-        <div class="projekt-info">
-            <h2>Majutuse Haldussüsteem</h2>
-            
-            <div style="margin: 10px 0;">
-                <span class="tag">Python</span>
-                <span class="tag">SQLite3</span>
-                <span class="tag">Tkinter GUI</span>
-            </div>
-
-            <p>See on Pythonis kirjutatud graafilise liidesega (GUI) andmebaasirakendus. Rakendus kasutab SQLite andmebaasi majutusasutuse tubade, broneeringute ja maksete haldamiseks. Lisatud on CRUD (Loo, Loe, Uuenda, Kustuta) funktsionaalsus.</p>
+        <div id="projektide-konteiner">
+            <p>Laen andmeid...</p>
         </div>
-
-        <pre><code class="language-python"># Osa minu andmebaasi koodist: Kustutamise funktsioon
-def on_delete():
-    selected = tree.selection()
-
-    if not selected:
-        messagebox.showwarning("Valik puudub", "Palun vali rida kustutamiseks!")
-        return
-
-    record_id = selected[0]
-    table = selected_table.get()
-
-    confirm = messagebox.askyesno("Kinnita", "Kas oled kindel, et soovid valitud rea kustutada?")
-    
-    if confirm:
-        try:
-            conn = sqlite3.connect(DB_NAME)
-            cur = conn.cursor()
-            cur.execute(f"DELETE FROM {table} WHERE rowid=?", (record_id,))
-            conn.commit()
-            conn.close()
-
-            load_data_from_db(tree)
-            messagebox.showinfo("Edu", "Kirje edukalt kustutatud!")
-        except Exception as e:
-            messagebox.showerror("Viga", f"Viga kustutamisel: {e}")</code></pre>
-            
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
+    <script>
+        // 1. Ütleme brauserile, et ta tooks meie JSON faili sisu
+        fetch('andmed.json')
+            .then(response => response.json()) // 2. Muudame teksti JavaScriptile arusaadavaks andmeks
+            .then(andmed => {
+                const konteiner = document.getElementById('projektide-konteiner');
+                konteiner.innerHTML = ''; // Teeme laadimisteksti puhtaks
+
+                // 3. Käime iga JSON failis oleva projekti läbi
+                andmed.forEach(projekt => {
+                    
+                    // Teeme "keeled" massiivist HTML tagid
+                    let tagidHTML = '';
+                    projekt.keeled.forEach(keel => {
+                        tagidHTML += `<span class="tag">${keel}</span>`;
+                    });
+
+                    // Kuna panime koodi JSON-is ridadena (massiivina), ühendame need üheks tekstiks, kus on reavahetused (\n)
+                    const koodiTekst = projekt.kood.join('\n');
+                    
+                    // Asendame < ja > sümbolid, et HTML kood katki ei läheks
+                    const turvalineKood = koodiTekst.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+                    // 4. Ehitame iga projekti jaoks HTML struktuuri
+                    const projektHTML = `
+                        <div class="projekt">
+                            <h2>${projekt.pealkiri}</h2>
+                            <div style="margin: 10px 0;">
+                                ${tagidHTML}
+                            </div>
+                            <p>${projekt.kirjeldus}</p>
+                            <pre><code class="language-python">${turvalineKood}</code></pre>
+                        </div>
+                    `;
+
+                    // Lisame valmis ploki lehele
+                    konteiner.innerHTML += projektHTML;
+                });
+
+                // 5. Ütleme Prism.js-ile, et "hei, me lisasime uut koodi, palun värvi see ära!"
+                Prism.highlightAll();
+            })
+            .catch(viga => {
+                console.error("Viga andmete laadimisel:", viga);
+                document.getElementById('projektide-konteiner').innerHTML = "<p>Viga andmete laadimisel. Kontrolli, kas andmed.json fail on olemas ja korrektne.</p>";
+            });
+    </script>
 </body>
 </html>
