@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andmebaasid 19-22 - Alari Tööd</title>
+    
+    <link rel="stylesheet" href="index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <style>
+        .sisu-konteiner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .projekt {
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .projekt:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        pre[class*="language-"] {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+        /* Style for the download button */
+        .download-nupp {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .download-nupp:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Andmebaasid (Ülesanded 19-22)</h1>
+    </header>
+
+    <div class="sisu-konteiner">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <a href="index.html" class="tagasi-nupp">← Tagasi pealehele</a>
+            
+            <a href="minu_kood.zip" download class="download-nupp">📥 Laadi kood alla (.zip)</a>
+        </div>
+
+        <div class="projekt">
+            <h2>Ülesanne 19: [Sinu Pealkiri Siia]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">Python</span>
+                <span class="tag">SQL</span>
+            </div>
+            <p>Siia tuleb 19. ülesande kirjeldus ja selgitus, mida sa tegid.</p>
+            
+            <pre><code class="language-sql">-- Sinu SQL või Python kood siia
+SELECT * FROM mingi_tabel;</code></pre>
+            
+            <img src="pildid/ulesanne19.png" alt="Ülesanne 19 Pilt" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px; border: 1px solid #ddd;">
+        </div>
+
+        <div class="projekt">
+            <h2>Ülesanne 20: [Sinu Pealkiri Siia]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">Python</span>
+            </div>
+            <p>Siia tuleb 20. ülesande kirjeldus.</p>
+            <pre><code class="language-python"># Sinu kood siia
+print("See on ülesanne 20")</code></pre>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+</body>
+</html>

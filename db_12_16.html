@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andmebaasid - Alari Tööd</title>
+    
+    <link rel="stylesheet" href="index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <style>
+        .sisu-konteiner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .projekt {
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .projekt:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        pre[class*="language-"] {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Andmebaasid (SQL Ülesanded)</h1>
+    </header>
+
+    <div class="sisu-konteiner">
+        <a href="index.html" class="tagasi-nupp">← Tagasi pealehele</a>
+        <br><br>
+
+        <div class="projekt">
+            <h2>Ülesanne 12: Tabeli loomine [cite: 1]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">SQL</span>
+                <span class="tag">SQLite</span>
+            </div>
+            <p>Kasutajate tabeli (users) loomine andmebaasis, määrates andmetüübid ja primaarvõtme[cite: 1].</p>
+            <pre><code class="language-sql">CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    image TEXT
+);</code></pre>
+        </div>
+
+        <div class="projekt">
+            <h2>Ülesanne 13: Andmete lugemine [cite: 2]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">SQL</span>
+                <span class="tag">SQLite</span>
+            </div>
+            <p>Andmete sisselugemine välisest failist ja kõikide kirjete pärimine tabelist[cite: 3].</p>
+            <pre><code class="language-sql">.read users.sql
+SELECT * FROM users;</code></pre>
+        </div>
+
+        <div class="projekt">
+            <h2>Ülesanne 14: CASE lause [cite: 4]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">SQL</span>
+                <span class="tag">SQLite</span>
+            </div>
+            <p>Kasutajate sorteerimine ja uue veeru 'Asutus' tekitamine vastavalt e-posti aadressi lõpule[cite: 5, 6, 7, 8, 9, 10, 11, 12, 13].</p>
+            <pre><code class="language-sql">SELECT
+  *,
+  CASE
+    WHEN email LIKE '%.edu' THEN 'HARIDUSASUTUS'
+    WHEN email LIKE '%.gov' THEN 'RIIGIASUTUS'
+    ELSE 'TAVAISIK'
+  END AS Asutus
+FROM users
+ORDER BY email;</code></pre>
+        </div>
+
+        <div class="projekt">
+            <h2>Ülesanne 15: Andmete uuendamine [cite: 14]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">SQL</span>
+                <span class="tag">SQLite</span>
+            </div>
+            <p>Olemasoleva kirje muutmine andmebaasis ning muudetud andmete kohene tagastamine[cite: 15, 16, 17, 18, 19].</p>
+            <pre><code class="language-sql">UPDATE users
+SET email = 'muudetud@gmail.com',
+    phone = '123'
+WHERE id = 1
+RETURNING id, email, phone;</code></pre>
+        </div>
+
+        <div class="projekt">
+            <h2>Ülesanne 16: Tabelite ühendamine (JOIN) [cite: 20]</h2>
+            <div style="margin: 10px 0;">
+                <span class="tag">SQL</span>
+                <span class="tag">INNER JOIN</span>
+            </div>
+            <p>Erinevate tabelite omavaheline sidumine, et pärida seotud andmeid[cite: 21]. Külalised ja nende broneeringud[cite: 22, 23, 24, 25]:</p>
+            <pre><code class="language-sql">SELECT users.first_name, users.last_name, bookings.rooms_id, bookings.checkin, bookings.checkout
+FROM users
+INNER JOIN bookings ON users.id = bookings.users_id;</code></pre>
+            
+            <p>Broneeringute maksete ajalugu[cite: 26, 27, 28, 29]:</p>
+            <pre><code class="language-sql">SELECT bookings.users_id, payments.payment_date, payments.amount
+FROM bookings
+INNER JOIN payments ON bookings.users_id = payments.booking_id;</code></pre>
+
+            <p>Külalised koos broneeritud tubadega[cite: 30, 31, 32, 33, 34]:</p>
+            <pre><code class="language-sql">SELECT users.first_name, users.last_name, rooms.room_number
+FROM bookings
+JOIN users ON users_id = users.id
+JOIN rooms ON rooms_id = rooms.id;</code></pre>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+
+</body>
+</html>
